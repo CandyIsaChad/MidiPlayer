@@ -2,12 +2,13 @@
 -- 0866
 -- November 03, 2020
 
-
+local virtualUser = game:GetService('VirtualUser')
+virtualUser:CaptureController()
 
 local Input = {}
 
-local keypress = getfenv(0).keypress
-local keyrelease = getfenv(0).keyrelease
+local keypress = virtualUser.SetKeyDown
+local keyrelease = virtualUser.keyrelease
 
 local VK_LSHIFT = 0x10
 
@@ -44,11 +45,11 @@ function Input.Press(pitch)
     if (not key) then return end
     if (upperMapIdx) then
         local keyToPress = LOWER_MAP:sub(upperMapIdx, upperMapIdx)
-        keypress(VK_LSHIFT)
-        keypress(keyToPress:upper():byte())
-        keyrelease(VK_LSHIFT)
+        keypress(tostring(VK_LSHIFT))
+        keypress(tostring(keyToPress:upper():byte()))
+        keyrelease(tostring(VK_LSHIFT))
     else
-        keypress(key:upper():byte())
+        keypress(tostring(key:upper():byte()))
     end
 end
 
@@ -58,9 +59,9 @@ function Input.Release(pitch)
     if (not key) then return end
     if (upperMapIdx) then
         local keyToPress = LOWER_MAP:sub(upperMapIdx, upperMapIdx)
-        keyrelease(keyToPress:upper():byte())
+        keyrelease(tostring(keyToPress:upper():byte()))
     else
-        keyrelease(key:upper():byte())
+        keyrelease(tostring(key:upper():byte()))
     end
 end
 
